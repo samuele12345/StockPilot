@@ -16,6 +16,19 @@ namespace MyApp1.Data
         // e le relazioni con loro e tra di loro, quindi è un'inizializzazione
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configura la chiave primaria composta della tabella ponte: una riga è identificata dalla coppia ItemId + ClientId.
+            modelBuilder.Entity<ItemsClient>().HasKey(ic => new
+            {
+                ic.ItemId,
+                ic.ClientId
+            });
+
+
+            // Configura la relazione molti-a-molti tramite ItemsClient:
+            // un Item può comparire in più record ItemsClient e un Client può comparire in più record ItemsClient.
+            modelBuilder.Entity<ItemsClient>().HasOne(i => i.Item).WithMany(ic => ic.ItemsClient).HasForeignKey(i => i.ItemId);
+            modelBuilder.Entity<ItemsClient>().HasOne(c => c.Client).WithMany(ic => ic.ItemsClient).HasForeignKey(c => c.ClientId);
+
             // eseguire Add-Migration "..." e  Update - Database per applicare le modifiche
             // HasData definisce dati iniziali gestiti da migration: se usi lo stesso Id, EF Core tratta il record come seed da aggiornare con i nuovi valori.
             // inizializzazione di un item di tipo Items
@@ -45,5 +58,9 @@ namespace MyApp1.Data
         public virtual DbSet<Persone> Persones { get; set; }
 
         public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Client> Clients { get; set; }
+
+        public DbSet<ItemsClient> ItemsClient { get; set; }
     }
 }

@@ -23,5 +23,8 @@ namespace MyApp1.Models
 
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
+
+        // entità di giunzione, concettualmente corrisponde al join
+        public List<ItemsClient>? ItemsClient { get; set; }
     }
 }
