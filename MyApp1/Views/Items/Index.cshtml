@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Price</th>
             <th>Serial Number</th>
+            <th>Category</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
                 <!--funziona grazie a Include(s => s.SerNumber) in ItemsController, buona pratica-->
                 <!-- con ? prova ad accedere a SerNumber, solo se non è null, se invece è null, non lancia eccezione e restituisce null-->
                 <td>@item.SerNumber?.Name</td>  <!--aggiunta del punto di domanda perchè può essere null-->
+                <th>@item.Category?.Name</th>
                 <td>
                     <!--asp-action è un helper (permette di sviluppare task), questo in particolare permetterà di dirigere il link all'action edit-->
                     <!--ridirige alla pagina edit con l'id specificato in asp-route-id -->

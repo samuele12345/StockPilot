@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyApp1.Data;
 using MyApp1.Models; // importazione delle class cs nella cartella Models
 
@@ -21,20 +23,37 @@ namespace MyApp1.Controllers
         {
             // Recupera tutti gli item e carica subito anche la proprietà di navigazione SerNumber collegata a ciascun record.
             // quindi nella view o nel controller si possono usare direttamente i dati del serial number collegato.
-            var item = await _context.Item.Include(s => s.SerNumber).ToListAsync();
+            var item = await _context.Item.Include(s => s.SerNumber).Include(c => c.Category).ToListAsync();
             return View(item);
         }
 
         // metodo get
         public IActionResult Create()
         {
+            // Prepara la lista delle categorie da mostrare nella select della view.
+            // ViewBag.Category sarà usato nella view con asp-items.
+            // Qui viene creata una lista adatta a una <select> HTML. I parametri sono:
+            /*  _context.Categories → i dati presi dal database
+                "id" → il valore di ogni option
+                "Name" → il testo mostrato all’utente
+
+            la SelectList rappresenta una select così:
+            <option value="1">Electronics</option>
+            <option value="2">Office</option>
+            */
+            ViewBag.Category = new SelectList(_context.Categories, "id", "Name");
+            //Questa riga dice ad ASP.NET MVC di:
+            /*  cercare la view associata all’action corrente
+                nel tuo caso, Views / Items / Create.cshtml
+                eseguire la view e restituire HTML al browser
+            */
             return View();
         }
 
         // Metodo POST: riceve i dati del form e li associa all'oggetto Items.
         [HttpPost]
         // Bind limita le proprietà compilate con i dati del form alle sole Id, Name e Price.
-        public async Task<IActionResult> Create([Bind("Id", "Name", "Price")] Items item)
+        public async Task<IActionResult> Create([Bind("Id", "Name", "Price", "CategoryId")] Items item)
         {
             // cntrolla con l'if se un item con name e price del bind esiste già nel database, in caso non lo inserisce
             bool itemExists = await _context.Item
@@ -45,6 +64,7 @@ namespace MyApp1.Controllers
                 // se invece che "" inserisco un campo specifico come Name, poi invece che All in asp-validation-summary="All" nel Create.cshtml
                 // posso inserire asp-validation-summary="Name"
                 ModelState.AddModelError("", "An item with the same name and price already exists.");
+                ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
                 return View(item);
             }
 
@@ -75,6 +95,7 @@ namespace MyApp1.Controllers
                 return RedirectToAction("Index");
             }
             // Se i dati non sono validi, riapre la view Create mostrando l'oggetto e gli eventuali errori.
+            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
             return View(item);
         }
 
@@ -83,6 +104,7 @@ namespace MyApp1.Controllers
         {
             // FirstOrDefaultAsync cerca il primo item con l'Id richiesto e restituisce null se non lo trova.
             var item = await _context.Item.FirstOrDefaultAsync(x => x.Id == id);
+            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item?.CategoryId);
             // apre la view relativa all'item con id corrispondente
             return View(item);
         }
@@ -91,7 +113,7 @@ namespace MyApp1.Controllers
         [HttpPost]
         // Bind stabilisce quali proprietà del model possono essere riempite con i dati del form prima dell'aggiornamento nel database.
         // Bind collega all'oggetto item solo i valori Id, Name e Price inviati dal form.
-        public async Task<IActionResult> Edit(int id, [Bind("Id", "Name", "Price")] Items item)
+        public async Task<IActionResult> Edit(int id, [Bind("Id", "Name", "Price", "CategoryId")] Items item)
         {
             if (ModelState.IsValid)
             {
@@ -99,6 +121,7 @@ namespace MyApp1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
             return View(item);
         }
 
@@ -122,6 +145,8 @@ namespace MyApp1.Controllers
             // in ogni caaso, sia se l'item sia null oppure no, lo user verrà ridiretto alla pagina Index
             return RedirectToAction("Index");
         }
+
+
 
 
 

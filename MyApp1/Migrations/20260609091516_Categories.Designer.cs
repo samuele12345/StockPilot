@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApp1.Data;
 
@@ -11,9 +12,11 @@ using MyApp1.Data;
 namespace MyApp1.Migrations
 {
     [DbContext(typeof(MyApp1Context))]
-    partial class MyApp1ContextModelSnapshot : ModelSnapshot
+    [Migration("20260609091516_Categories")]
+    partial class Categories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,18 +40,6 @@ namespace MyApp1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            id = 2,
-                            Name = "Books"
-                        });
                 });
 
             modelBuilder.Entity("MyApp1.Models.Items", b =>
@@ -142,7 +133,7 @@ namespace MyApp1.Migrations
             modelBuilder.Entity("MyApp1.Models.Items", b =>
                 {
                     b.HasOne("MyApp1.Models.Category", "Category")
-                        .WithMany("Items")
+                        .WithMany("items")
                         .HasForeignKey("CategoryId");
 
                     b.HasOne("MyApp1.Models.SerialNumber", "SerNumber")
@@ -156,7 +147,7 @@ namespace MyApp1.Migrations
 
             modelBuilder.Entity("MyApp1.Models.Category", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("items");
                 });
 
             modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>

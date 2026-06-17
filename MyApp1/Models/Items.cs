@@ -15,5 +15,13 @@ namespace MyApp1.Models
 
         [ForeignKey("IdSerial")]
         public SerialNumber? SerNumber { get; set; }
+
+
+        public int? CategoryId { get; set; }
+
+        // non diventa una colonna, serve solo a entity framework per navigare verso l'entità collegata
+
+        [ForeignKey("CategoryId")]
+        public Category? Category { get; set; }
     }
 }

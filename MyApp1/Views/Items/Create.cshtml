@@ -8,12 +8,21 @@
 
 <form asp-action="Create" method="post">
     <div class="form-group">
-        <label for="Name">Name: </label>
-        <input type="text" class="form-control" asp-for="Name"/>
+        <label asp-for="Name"></label>
+        <input type="text" class="form-control" asp-for="Name" autocomplete="name" />
     </div>
     <div class="form-group">
-        <label for="Price">Price: </label>
-        <input type="number" class="form-control" asp-for="Price" />
+        <label asp-for="Price"></label>
+        <input type="number" class="form-control" asp-for="Price" autocomplete="off" />
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
+        <!-- asp-for serve a collegare un elemento HTML a una proprietà del model, in questo caso a Items.cs-->
+        <!-- ViewBag.Category fornisce le opzioni da mostrare-->
+        <select asp-for="CategoryId" asp-items="ViewBag.Category" class="form-control">
+            <option value=0>Electronics</option>
+            <option value=1>Books</option>
+        </select>
     </div>
     <!--legge gli errori presenti nel ModelState e li mostra nella view. vedi metodo Create in ItemsController-->
     <div asp-validation-summary="All" class="text-danger"></div>

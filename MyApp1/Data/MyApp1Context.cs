@@ -28,6 +28,12 @@ namespace MyApp1.Data
                     new SerialNumber { Id = 10, Name = "MIC150" }
                 );
 
+            modelBuilder.Entity<Category>().HasData(
+                    // a differenza di id e name, items viene settato tramite action
+                    new Category { id = 1, Name = "Electronics" },
+                    new Category { id = 2, Name = "Books" }
+                );
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -37,5 +43,7 @@ namespace MyApp1.Data
         public DbSet<SerialNumber> SerialNumbers { get; set; }
 
         public virtual DbSet<Persone> Persones { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
     }
 }
