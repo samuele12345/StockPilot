@@ -10,6 +10,7 @@ html {
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  
 }
 
 html {
@@ -50,11 +51,29 @@ header, footer {
 }
 
 .nav-item:hover {
-    background-color: blue;
-    color: white;
-    border-radius: 6px;
+    border-bottom: 2px solid blue;
+    scale: 1.05;
+    font-weight: 600;
 }
 
-#but-edit{
+.nav-item {
+    border-bottom: 4px solid white;
+}
+
+#nav-title {
+    border-right: 7px solid white;
+}
+
+
+#nav-title:hover {
+    background: rgba(0, 0, 255, 0.1);
+    scale: 1.03;
+    border-radius: 5px;
+    padding: 3px 3px;
+    border-right: 0px solid white;
+    font-weight: 500;
+}
+
+#but-edit {
     margin-top: 20px;
 }

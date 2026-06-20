@@ -28,14 +28,14 @@
         }
 
         header{
-            position: absolute;
+            
             top: 0;
             width: 100%;
         }
         body{
             flex: 1;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
          
@@ -47,8 +47,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 70%;
+            width: 100%;
             z-index: 1;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px 30px;
         }
 
         main{
@@ -68,17 +70,41 @@
             position: relative;
             width: 100%;
             height: 100%;
+            flex:1;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+            margin: auto;
         }
 
         #vid1{
             position: absolute;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             object-fit: cover;
             z-index: 0;
+        }
+
+        #but-ind{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            width: 200px;
+            height: 40px;
+            z-index: 1;
+        }
+
+        #but-ind:hover{
+            scale: 1.03;
+        }
+
+        #but-ind:active {
+            scale: 0.97;
+            
         }
     </style>
 </head>
@@ -86,7 +112,7 @@
     <header>
         <nav id ="nav-index-home" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MyApp1</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="nav-title">StockKeeper</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -107,21 +133,20 @@
             </div>
         </nav>
     </header>
-    <div class="layout-content">
-        <main role="main" class="pb-3 layout-main" id="main-cont">
+    <main role="main" class="pb-3 layout-main" id="main-cont">
 
-            <video video playsinline autoplay loop muted id="vid1">
-                <source src="C:\Users\samue\source\repos\samuele12345\StockKeeper\MyApp1\src\4294436-hd_1280_720_50fps.mp4" type="video/mp4" />
-            </video>
+        <video playsinline autoplay loop muted id="vid1">
+            <source src="~/src/4294436-hd_1280_720_50fps.mp4" type="video/mp4" />
+        </video>
 
-            <div class="main-text">
-                <h1 class="tit1">What's StockKeeper?</h1>
-                <p>Stock Keeper is an application designed to simplify warehouse product management by allowing users to organize, monitor, and update items quickly and efficiently. With a clear and intuitive interface, it helps keep track of essential product information, improve organization, reduce errors, and make daily operations more efficient.</p>
-            </div>
+        <div class="main-text">
+            <h1 class="tit1">What's StockKeeper?</h1>
+            <p>Stock Keeper is an application designed to simplify warehouse product management by allowing users to organize, monitor, and update items quickly and efficiently. With a clear and intuitive interface, it helps keep track of essential product information, improve organization, reduce errors, and make daily operations more efficient.</p>
+            <a asp-controller="Items" asp-action="Index" class="btn btn-primary" id="but-ind">Go to Items</a>
+        </div>
 
-            <a asp-controller="Items" asp-action="Index" class="btn btn-primary">Go to Items</a>
-        </main>
-    </div>
+        
+    </main>
 
     <footer class="border-top footer text-muted">
         <div class="container">

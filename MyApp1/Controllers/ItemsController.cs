@@ -75,15 +75,38 @@ namespace MyApp1.Controllers
             // Controlla se i dati ricevuti dal form sono validi secondo il modello.
             if (ModelState.IsValid)
             {
+                
+
+                item.Name = item.Name.Trim();
                 var serNum = new SerialNumber();
 
                 var random = new Random();
 
                 int num = random.Next(10, 100);
 
-                string str = item.Name.Substring(0, 3);
+                if(item.Name.Length < 3)
+                {
+                    if (item.Name.Length == 1)
+                    {
+                        string str = item.Name.Substring(0, 1) + "XX";
 
-                serNum.Name = str + num;
+                        serNum.Name = str + num;
+                    }
+                    else if(item.Name.Length == 2)
+                    {
+                        string str = item.Name.Substring(0, 2) + "X";
+
+                        serNum.Name = str + num;
+                    }
+                }
+                else
+                {
+                    string str = item.Name.Substring(0, 3);
+
+                    serNum.Name = str + num;
+                }
+
+                
 
 
                 _context.SerialNumbers.Add(serNum);
