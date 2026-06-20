@@ -20,8 +20,7 @@
         <!-- asp-for serve a collegare un elemento HTML a una proprietà del model, in questo caso a Items.cs-->
         <!-- ViewBag.Category fornisce le opzioni da mostrare-->
         <select asp-for="CategoryId" asp-items="ViewBag.Category" class="form-control">
-            <option value=0>Electronics</option>
-            <option value=1>Books</option>
+            <option value="">Select a category</option>
         </select>
     </div>
     <!--legge gli errori presenti nel ModelState e li mostra nella view. vedi metodo Create in ItemsController-->

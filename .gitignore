@@ -5,3 +5,4 @@
 *.suo
 *.dbmdl
 *.cache
+MyApp1/appsettings.Local.json

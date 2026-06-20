@@ -3,6 +3,11 @@ using Microsoft.EntityFrameworkCore; // importare per la connessione al db
 
 var builder = WebApplication.CreateBuilder(args); // inizializza l'istanza della web application
 
+// Carica un file locale opzionale con configurazioni specifiche del PC.
+// Qui è il punto più corretto: viene letto prima di registrare il DbContext,
+// così ogni sviluppatore può usare la propria connection string senza salvarla su Git.
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

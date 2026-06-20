@@ -32,16 +32,19 @@ namespace MyApp1.Controllers
         {
             // Prepara la lista delle categorie da mostrare nella select della view.
             // ViewBag.Category sarà usato nella view con asp-items.
+            // _context.Categories legge le categorie dal database.
             // Qui viene creata una lista adatta a una <select> HTML. I parametri sono:
             /*  _context.Categories → i dati presi dal database
-                "id" → il valore di ogni option
+                "Id" → il valore di ogni option
                 "Name" → il testo mostrato all’utente
 
             la SelectList rappresenta una select così:
             <option value="1">Electronics</option>
             <option value="2">Office</option>
             */
-            ViewBag.Category = new SelectList(_context.Categories, "id", "Name");
+            ViewBag.Category = new SelectList(_context.Categories, "Id", "Name");
+            // Nella view Create.cshtml, asp-items="ViewBag.Category" userà questa lista
+            // per generare automaticamente le option della select.
             //Questa riga dice ad ASP.NET MVC di:
             /*  cercare la view associata all’action corrente
                 nel tuo caso, Views / Items / Create.cshtml
@@ -64,7 +67,7 @@ namespace MyApp1.Controllers
                 // se invece che "" inserisco un campo specifico come Name, poi invece che All in asp-validation-summary="All" nel Create.cshtml
                 // posso inserire asp-validation-summary="Name"
                 ModelState.AddModelError("", "An item with the same name and price already exists.");
-                ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
+                ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item.CategoryId);
                 return View(item);
             }
 
@@ -95,7 +98,7 @@ namespace MyApp1.Controllers
                 return RedirectToAction("Index");
             }
             // Se i dati non sono validi, riapre la view Create mostrando l'oggetto e gli eventuali errori.
-            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
+            ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item.CategoryId);
             return View(item);
         }
 
@@ -104,7 +107,7 @@ namespace MyApp1.Controllers
         {
             // FirstOrDefaultAsync cerca il primo item con l'Id richiesto e restituisce null se non lo trova.
             var item = await _context.Item.FirstOrDefaultAsync(x => x.Id == id);
-            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item?.CategoryId);
+            ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item?.CategoryId);
             // apre la view relativa all'item con id corrispondente
             return View(item);
         }
@@ -121,7 +124,7 @@ namespace MyApp1.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.Category = new SelectList(_context.Categories, "id", "Name", item.CategoryId);
+            ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item.CategoryId);
             return View(item);
         }
 

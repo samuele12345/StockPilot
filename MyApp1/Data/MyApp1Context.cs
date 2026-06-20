@@ -43,8 +43,8 @@ namespace MyApp1.Data
 
             modelBuilder.Entity<Category>().HasData(
                     // a differenza di id e name, items viene settato tramite action
-                    new Category { id = 1, Name = "Electronics" },
-                    new Category { id = 2, Name = "Books" }
+                    new Category { Id = 1, Name = "Electronics" },
+                    new Category { Id = 2, Name = "Books" }
                 );
 
             base.OnModelCreating(modelBuilder);

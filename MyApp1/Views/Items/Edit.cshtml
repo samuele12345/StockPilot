@@ -21,10 +21,9 @@
     <div class="form-group">
         <label asp-for="CategoryId">Category</label>
         <select asp-for="CategoryId" asp-items="ViewBag.Category" class="form-control">
-            <option value=0>Electronics</option>
-            <option value=1>Books</option>
+            <option value="">Select a category</option>
         </select>
     </div>
     <!--btn-primary da un colore azzurro caratteristico al bottone, classe pre impostata-->
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" id="but-edit" class="btn btn-primary">Submit</button>
 </form>
