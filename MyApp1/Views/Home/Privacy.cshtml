@@ -1,6 +1,132 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>At Stock Keeper, we value the privacy of our users and are committed to protecting their personal information. Any data collected through the application is handled responsibly and used only for purposes related to improving the service, managing the platform, and ensuring a better user experience. We do not share personal information with third parties unless required by law or necessary for the operation of the service. By using this application, users agree to the collection and use of information in accordance with this privacy policy.</p>
+
+
+<style>
+    .layout-content {
+        position: relative;
+    }
+
+
+
+    #main-div{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.9);
+        width: 100%;
+        height: auto;   
+        padding: 20px 30px;
+        gap: 30px;
+        margin: 20px 0px;
+        border-radius: 5px;
+        box-shadow: 10px 10px 15px grey;
+        z-index: 10;
+        transition: 0.8s ease-in-out;
+    }
+
+    #main-div:hover {
+        background: rgba(255, 255, 255);
+    }
+
+    #img-sfondo{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        object-fit: cover;
+    }
+
+    ::-webkit-scrollbar{
+        display: none;
+    }
+    
+</style>
+
+<img id="img-sfondo" src="~/src/pexels-tiger-lily-4483773.jpg" alt="Background" />
+
+<div id="main-div">
+    
+
+    <div class="div-priv">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    
+    <div class="div-priv">
+        <h2>Introduction</h2>
+        <p>At StockPilot, we respect your privacy and are committed to protecting the personal information you provide while using our platform. This Privacy Policy explains how information is collected, used, stored, and protected when interacting with StockPilot. By accessing or using the application, you acknowledge and agree to the practices described in this policy.</p>
+    </div>
+    
+    <div class="div-priv">
+        <h2>Information We Collect</h2>
+        <p>StockPilot may collect different types of information to provide and improve its services, including:</p>
+        <ol>
+            <li>Personal information such as name, email address, and account credentials.</li>
+            <li>Business-related information entered by users, including inventory records, product details, and stock management data.</li>
+            <li>Technical information such as IP addresses, browser type, operating system, device information, and usage statistics.</li>
+            <li>Log data generated during interactions with the platform for security, troubleshooting, and performance monitoring purposes.</li>
+
+        </ol>
+    </div>
+    
+    <div class="div-priv">
+        <h2>How We Use Your Information</h2>
+        <p>The information collected may be used for the following purposes:</p>
+        <ol>
+            <li>To provide access to the platform and its features.</li>
+            <li>To manage user accounts and authentication processes.</li>
+            <li>To improve system performance, reliability, and user experience.</li>
+            <li>To monitor and prevent unauthorized access, fraud, or misuse of the platform.</li>
+            <li>To communicate important updates, maintenance notifications, or service-related announcements.</li>
+            <li>To analyze platform usage and identify opportunities for future improvements.</li>
+        </ol>
+    </div>
+
+    <div class="div-priv">
+        <h2>Data Security</h2>
+        <p>StockPilot implements reasonable administrative, technical, and organizational measures to protect user information against unauthorized access, disclosure, alteration, or destruction. While every effort is made to secure the platform, no method of data transmission or storage can be guaranteed to be completely secure. Users are encouraged to maintain strong passwords and protect their account credentials.</p>
+    </div>
+
+    <div class="div-priv">
+        <h2>Data Retention</h2>
+        <p>User information is retained only for as long as necessary to fulfill the purposes outlined in this policy, comply with legal obligations, resolve disputes, and enforce platform agreements. Data that is no longer required may be securely deleted or anonymized.</p>
+    </div>
+
+    <div class="div-priv">
+        <h2>Third-Party Services</h2>
+        <p>StockPilot may utilize third-party services for hosting, analytics, authentication, database management, or other operational functions. These providers may have access to certain information strictly for the purpose of performing services on behalf of the platform and are expected to handle such information responsibly.</p>
+    </div>
+
+    <div class="div-priv">
+        <h2>User Rights</h2>
+        <p>Depending on applicable laws and regulations, users may have the right to:</p>
+        <ul>
+            <li>Access their personal information.</li>
+            <li>Request correction of inaccurate or incomplete data.</li>
+            <li>Request deletion of their personal information.</li>
+            <li>Object to the processing of their data.</li>
+            <li>Request data portability.</li>
+            <li>Withdraw consent where applicable.</li>
+        </ul>
+        <p>Requests regarding personal data may be submitted through the appropriate contact channels provided by the platform.</p>
+    </div>
+
+    <div class="div-priv">
+        <h2>Changes to This Policy</h2>
+        <p>StockPilot reserves the right to update or modify this Privacy Policy at any time. Any changes will be reflected on this page, and continued use of the platform after such updates constitutes acceptance of the revised policy.</p>
+    </div>
+
+    <div class="div-priv">
+        <h2>Contact Information</h2>
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or the handling of your information, please contact the StockPilot support team through the official communication channels available within the application.</p>
+    </div>
+
+
+</div>
+
+  
