@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore; // utile per importare il framework per lavorare sui db
 using MyApp1.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace MyApp1.Data
 {
     // collega il progetto con il database
-    public class MyApp1Context : DbContext // estende DbContext
+    public class MyApp1Context : /* DbContext,*/ IdentityDbContext<User>// commentato DbContext perchè è ereditato da IdentityDbContext
     {
         // Costruttore del contesto: riceve la configurazione del database e la passa a DbContext
         public MyApp1Context(DbContextOptions<MyApp1Context> options) : base(options)

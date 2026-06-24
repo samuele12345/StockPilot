@@ -1,5 +1,7 @@
 using MyApp1.Data;
-using Microsoft.EntityFrameworkCore; // importare per la connessione al db
+using MyApp1.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity; // importare per la connessione al db
 
 var builder = WebApplication.CreateBuilder(args); // inizializza l'istanza della web application
 
@@ -14,6 +16,14 @@ builder.Services.AddControllersWithViews();
 // Configura il contesto del database e usa la connection string salvata in appsettings.json.
 builder.Services.AddDbContext<MyApp1Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+
+});
+
+builder.Services.AddLogging();
 
 var app = builder.Build();
 
@@ -37,6 +47,9 @@ app.MapControllerRoute(
     // utilizzabile con https://localhost:7159/Items/Edit/3
     pattern: "{controller=Home}/{action=Index}/{id?}") // ci permette di ricevere un id
     .WithStaticAssets();
+
+
+
 
 
 app.Run();

@@ -1,4 +1,6 @@
-﻿namespace MyApp1.Models
+﻿
+
+namespace MyApp1.Models
 {
     public class Client
     {
