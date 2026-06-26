@@ -1,17 +1,23 @@
 ﻿@using MyApp1.ViewModels;
-@model LoginViewModel;
+@model RegisterViewModel;
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Register";
     Layout = "_AccountLayout";
 }
 
 <div class="account-container">
     <div class="account-box">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">Register</h2>
 
-        <form class="login-form" asp-action="Login" method="post">
+        <form class="login-form" asp-action="Register" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" />
@@ -24,20 +30,15 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <div class="float-end">
-                <a asp-controller="Account" asp-action="ForgotPassword" class="text-decoration-none">
-                    Forgot Password?
-                </a>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label"></label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
 
-            <div class="form-check mb-3">
-                <label class="form-check-label">
-                    <input asp-for="RememberMe" class="form-check-input" />
-                    @Html.DisplayNameFor(a => a.RememberMe)
-                </label>
-            </div>
-            <input type="submit" value="Login" class="btn btn-success w-100 p-2 mb-2" />
-            <p class="text-center mb-2">Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register</a></p>
+
+            <input type="submit" value="Register" class="btn btn-success w-100 p-2 mb-2" />
+            <p class="text-center mb-2">Already have an account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a></p>
             <div class="text-center">
                 <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back to Home</a>
             </div>

@@ -8,241 +8,241 @@
 
 <!DOCTYPE html>
 <html id="Ihtml" lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - StockPilot</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MyApp1.styles.css" asp-append-version="true" />
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - StockPilot</title>
+        <script type="importmap"></script>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/MyApp1.styles.css" asp-append-version="true" />
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
 
        
-        body{
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            body{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
          
-        }
+            }
 
-        .main-text{
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 60%;
+            .main-text{
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 60%;
             
-            padding: 30px 30px;
-            border-radius: 5px;
-        }
+                padding: 30px 30px;
+                border-radius: 5px;
+            }
 
         
-        #main-div{
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.6);
-            z-index: 1;
-            transition: 0.8s ease-in-out;
-        }
+            #main-div{
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.6);
+                z-index: 1;
+                transition: 0.8s ease-in-out;
+            }
 
-        #main-div:hover {
-            background: rgba(255, 255, 255, 0.8);
-        }
+            #main-div:hover {
+                background: rgba(255, 255, 255, 0.8);
+            }
 
-        .main-text > h1{
-            font-size: 70px;
-            font-weight: 500;
-            text-shadow: 2px 2px 10px grey;
-            animation: fade 3s ease-out;
-        }
+            .main-text > h1{
+                font-size: 100px;
+                font-weight: 500;
+                text-shadow: 2px 2px 10px grey;
+                animation: fade 3s ease-out;
+            }
 
-        @@media(max-width: 1300px){
-            .main-text > h1 {
+            @@media(max-width: 1300px){
+                .main-text > h1 {
+                    font-size: 50px;
+                }
+
+            
+            }
+
+            @@keyframes fade{
+                0% {
+                    opacity: 1;
+                }
+
+                50% {
+                    opacity: 0.8;
+                }
+
+                100% {
+                    opacity: 1;
+                }
+             }
+
+            .main-text > p {
+                font-size: 24px;
+                font-weight: 400;
+            }
+
+            main{
+            
+                text-align: center;
+            }
+
+            footer {
+                padding-bottom: 15px;
+                padding-top: 15px;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+
+            #main-cont{
+                position: relative;
+                width: 100%;
+                height: 100%;
+                flex:1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                margin: auto;
+            }
+
+            #vid1{
+                position: absolute;
+                width: 100%;
+                height: 100vh;
+                object-fit: cover;
+                z-index: 0;
+            }
+
+            #but-ind{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                width: 100px;
+                height: 40px;
+                z-index: 1;
+                font-size: 14px;
+                border-left: 1px solid white;
+                border-right: 1px solid white;
+                text-decoration: none;
+                color: white;
+            }
+
+            #but-ind:hover{
+            background: rgba(130, 232, 255, 0.6);
+                scale: 1.038;
+            }
+
+            #but-ind:active {
+                scale: 0.97;
+            
+            }
+
+            #left-bot{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                left: 20px;
+                bottom: 50px;
+                color: white;
+                font-size: 40px;
+                font-weight: 600;
+                text-shadow: 2px 2px 10px grey;
+                gap: 10px;
+            }
+
+            #left-bot > h1{
                 font-size: 50px;
+                margin-bottom: -20px;
             }
 
-            
-        }
-
-        @@keyframes fade{
-            0% {
-                opacity: 1;
+            #div-buts{
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
             }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav id ="nav-index-home" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow ">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="nav-title">StockPilot</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+                            </li>                                     
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <partial name="_LoginPartial"/>
+                        </ul>
+                    </div>
+                </div>
 
-            50% {
-                opacity: 0.8;
-            }
+            </nav>
+        </header>
+        <main role="main" class="layout-main" id="main-cont">
 
-            100% {
-                opacity: 1;
-            }
-         }
+            <video playsinline autoplay loop muted id="vid1">
+                <source src="~/src/4294436-hd_1280_720_50fps.mp4" type="video/mp4" />
+            </video>
 
-        .main-text > p {
-            font-size: 24px;
-            font-weight: 400;
-        }
-
-        main{
-            
-            text-align: center;
-        }
-
-        footer {
-            padding-bottom: 15px;
-            padding-top: 15px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-
-        #main-cont{
-            position: relative;
-            width: 100%;
-            height: 100%;
-            flex:1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin: auto;
-        }
-
-        #vid1{
-            position: absolute;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 0;
-        }
-
-        #but-ind{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-            width: 100px;
-            height: 40px;
-            z-index: 1;
-            font-size: 14px;
-            border-left: 1px solid white;
-            border-right: 1px solid white;
-            text-decoration: none;
-            color: white;
-        }
-
-        #but-ind:hover{
-        background: rgba(130, 232, 255, 0.6);
-            scale: 1.038;
-        }
-
-        #but-ind:active {
-            scale: 0.97;
-            
-        }
-
-        #left-bot{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            left: 20px;
-            bottom: 50px;
-            color: white;
-            font-size: 40px;
-            font-weight: 600;
-            text-shadow: 2px 2px 10px grey;
-            gap: 10px;
-        }
-
-        #left-bot > h1{
-            font-size: 50px;
-            margin-bottom: -20px;
-        }
-
-        #div-buts{
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <nav id ="nav-index-home" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="nav-title">StockPilot</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
-                        </li>                                     
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <partial name="_LoginPartial"/>
-                    </ul>
+            <div id="main-div">
+                <div class="main-text">
+                    <h1 class="tit1">StockPilot</h1>
                 </div>
             </div>
 
-        </nav>
-    </header>
-    <main role="main" class="pb-3 layout-main" id="main-cont">
-
-        <video playsinline autoplay loop muted id="vid1">
-            <source src="~/src/4294436-hd_1280_720_50fps.mp4" type="video/mp4" />
-        </video>
-
-        <div id="main-div">
-            <div class="main-text">
-                <h1 class="tit1">StockPilot</h1>
+            <div id="left-bot">
+                <h1>StockPilot</h1>
+                <div id="div-buts">
+                    <a asp-controller="Items" asp-action="Index" id="but-ind">Go to Items</a>
+                    <a asp-controller="Items" asp-action="AboutUs" id="but-ind">About Us</a>
+                </div>
             </div>
-        </div>
-
-        <div id="left-bot">
-            <h1>StockPilot</h1>
-            <div id="div-buts">
-                <a asp-controller="Items" asp-action="Index" id="but-ind">Go to Items</a>
-                <a asp-controller="Items" asp-action="AboutUs" id="but-ind">About Us</a>
-            </div>
-        </div>
         
-    </main>
+        </main>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
 
     
     
-</body>
+    </body>
 </html>

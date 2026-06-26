@@ -1,11 +1,10 @@
-﻿body {
-}
-
+﻿
 .account-container{
+    width: 100%;
     background-image: url('../src/sfondoAccount.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: repeat-y;
+    background-repeat: repeat-x;
     display: flex;
     flex-direction: column;
     align-items: center;
