@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<UserM> SignInManager;
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,19 +24,36 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <partial name="_LoginPartial"/>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <partial name="_LoginPartial" />
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <partial name="_LoginPartial" />
+                        }
+                        
                     </ul>
                 </div>
             </div>

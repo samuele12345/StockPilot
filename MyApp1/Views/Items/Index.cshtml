@@ -20,7 +20,6 @@
     }
 
     .table{
-        margin-top: 20px;
         padding: 10px 20px;
         border-radius: 10px;
         box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
@@ -29,45 +28,86 @@
     thead{
         padding-top: 20px;
     }
+
+    .main-it-div{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
+        margin-top: 20px;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    #n-it-found{
+        color: rgba(0, 0, 0, 0.7);
+        margin-bottom: 20px;
+    }
 </style>
 
 <img id="img-sfondo" src="~/src/pexels-tiger-lily-4483773.jpg" alt="Background" />
 
-<table class="table">
-    <thead>
-        <!--tr: riga, th: table header-->
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Serial Number</th>
-            <th>Category</th>
-            <th>Modify</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--Il loop avviene attraverso il model importato in alto alla pagina, ovvero Items-->
-        @foreach (var item in Model)
-        {
+@if (Model.Count == 0)
+{
+    <div class="main-it-div">
+        <table class="table">
             <tr>
-                <!--td sta per table data-->
-                <td>@item.Name</td>
-                <td>@item.Price.ToString("N2") $</td>
-                <!--funziona grazie a Include(s => s.SerNumber) in ItemsController, buona pratica-->
-                <!-- con ? prova ad accedere a SerNumber, solo se non è null, se invece è null, non lancia eccezione e restituisce null-->
-                <td>@item.SerNumber?.Name</td>  <!--aggiunta del punto di domanda perchè può essere null-->
-                <th>@item.Category?.Name</th>
-                <td>
-                    <!--asp-action è un helper (permette di sviluppare task), questo in particolare permetterà di dirigere il link all'action edit-->
-                    <!--ridirige alla pagina edit con l'id specificato in asp-route-id -->
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <!--stessa funzione di prima ma verso l'action delete-->
-                    <a class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Serial Number</th>
+                <th>Category</th>
+                <th>Modify</th>
             </tr>
-        }
+        </table>
+        <div class="w-100 text-center">
+            <h2 id="n-it-found"> No items found!</h2>
+        </div>
 
-    </tbody>
-</table>
+    </div>
+    
+}
+else
+{
+    <table class="table mt-4">
+
+        <thead>
+            <!--tr: riga, th: table header-->
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Serial Number</th>
+                <th>Category</th>
+                <th>Modify</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <!--td sta per table data-->
+                    <td>@item.Name</td>
+                    <td>@item.Price.ToString("N2") $</td>
+                    <!--funziona grazie a Include(s => s.SerNumber) in ItemsController, buona pratica-->
+                    <!-- con ? prova ad accedere a SerNumber, solo se non è null, se invece è null, non lancia eccezione e restituisce null-->
+                    <td>@item.SerNumber?.Name</td>  <!--aggiunta del punto di domanda perchè può essere null-->
+                    <th>@item.Category?.Name</th>
+                    <td>
+                        <!--asp-action è un helper (permette di sviluppare task), questo in particolare permetterà di dirigere il link all'action edit-->
+                        <!--ridirige alla pagina edit con l'id specificato in asp-route-id -->
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <!--stessa funzione di prima ma verso l'action delete-->
+                        <a class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 
 
 

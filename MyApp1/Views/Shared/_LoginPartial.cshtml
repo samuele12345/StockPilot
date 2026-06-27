@@ -1,10 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<User> SignInManager;
+@inject SignInManager<UserM> SignInManager;
 
 <ul class="navbar-nav ms-auto">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item"><a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a></li>
+        <li class="nav-item">
+            <form asp-controller="Account" asp-action="Logout" method="post" style="display: inline;">
+                <button type="submit" class="nav-link text-dark" style="background: none; border: none; cursor: pointer; padding: 0.5rem 0.5rem;">Logout</button>
+            </form>
+        </li>
+        
+        
     }
     else
     {

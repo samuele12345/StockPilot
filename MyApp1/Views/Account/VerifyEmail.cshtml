@@ -1,0 +1,40 @@
+﻿@using MyApp1.ViewModels;
+@model VerifyEmailViewModel;
+
+@{
+    ViewData["Title"] = "Verify Email";
+    Layout = "_AccountLayout";
+}
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Verify Email</h2>
+
+        <form class="login-form" asp-action="VerifyEmail" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            
+            <input type="submit" value="Verify Email" class="btn btn-success w-100 p-2 mb-2 mt-2" />
+            <p class="text-center mb-2">Already have an account? <a asp-controller="Account" asp-action="Login" class="text-decoration-none">Login</a></p>
+            <p class="text-center mb-2">Don't have an account? <a asp-controller="Account" asp-action="Register" class="text-decoration-none">Register</a></p>
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Back to Home</a>
+            </div>
+        </form>
+    </div>
+
+    
+</div>
+
+@section Scripts {
+    @{
+        // vengono mostrati gli errori istantanei
+        await Html.RenderPartialAsync("_ValidationScriptsPartial.cshtml");
+    }
+}

@@ -17,7 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyApp1Context>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
-builder.Services.AddIdentity<User, IdentityRole>(options =>
+builder.Services.AddIdentity<UserM, IdentityRole>(options =>
 {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 8;

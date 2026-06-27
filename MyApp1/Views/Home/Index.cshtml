@@ -1,4 +1,7 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<UserM> SignInManager;
+
+
 @{
     Layout = null;
     ViewData["Title"] = "Home Page";
@@ -197,19 +200,35 @@
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
-                            </li>                                     
-                            <li class="nav-item">
-                                <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <partial name="_LoginPartial"/>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                </li>
+                                <partial name="_LoginPartial" />
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nal-l" asp-area="" asp-controller="Items" asp-action="AboutUs">About Us</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark nav-l" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                </li>
+                                <partial name="_LoginPartial" />
+                            }
                         </ul>
                     </div>
                 </div>
@@ -231,8 +250,17 @@
             <div id="left-bot">
                 <h1>StockPilot</h1>
                 <div id="div-buts">
-                    <a asp-controller="Items" asp-action="Index" id="but-ind">Go to Items</a>
-                    <a asp-controller="Items" asp-action="AboutUs" id="but-ind">About Us</a>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a asp-controller="Items" asp-action="Index" id="but-ind">Go to Items</a>
+                        <a asp-controller="Items" asp-action="AboutUs" id="but-ind">About Us</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" id="but-ind">Sign In</a>
+                        <a asp-controller="Account" asp-action="Register" id="but-ind">Register</a>
+                    }
+
                 </div>
             </div>
         

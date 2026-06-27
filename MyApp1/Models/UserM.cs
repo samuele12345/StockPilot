@@ -2,7 +2,7 @@
 
 namespace MyApp1.Models
 {
-    public class User : IdentityUser
+    public class UserM : IdentityUser
     {
         public string FullName { get; set; } = null!;
     }

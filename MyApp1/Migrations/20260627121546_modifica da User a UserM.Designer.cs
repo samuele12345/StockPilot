@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApp1.Data;
 
@@ -11,9 +12,11 @@ using MyApp1.Data;
 namespace MyApp1.Migrations
 {
     [DbContext(typeof(MyApp1Context))]
-    partial class MyApp1ContextModelSnapshot : ModelSnapshot
+    [Migration("20260627121546_modifica da User a UserM")]
+    partial class modificadaUseraUserM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,7 +172,7 @@ namespace MyApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -198,7 +201,7 @@ namespace MyApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients", (string)null);
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("MyApp1.Models.Items", b =>
@@ -229,7 +232,7 @@ namespace MyApp1.Migrations
                         .IsUnique()
                         .HasFilter("[IdSerial] IS NOT NULL");
 
-                    b.ToTable("Item", (string)null);
+                    b.ToTable("Item");
 
                     b.HasData(
                         new
@@ -253,7 +256,7 @@ namespace MyApp1.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("ItemsClient", (string)null);
+                    b.ToTable("ItemsClient");
                 });
 
             modelBuilder.Entity("MyApp1.Models.Persone", b =>
@@ -277,7 +280,7 @@ namespace MyApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Persone", (string)null);
+                    b.ToTable("Persone");
                 });
 
             modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>
@@ -294,7 +297,7 @@ namespace MyApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SerialNumber", (string)null);
+                    b.ToTable("SerialNumber");
 
                     b.HasData(
                         new
