@@ -48,6 +48,8 @@ namespace MyApp1.Data
                     new Category { Id = 1, Name = "Electronics" },
                     new Category { Id = 2, Name = "Books" }
                 );
+            
+            modelBuilder.Entity<Items>().HasOne(u => u.User).WithMany(it => it.Items).HasForeignKey(uid => uid.UserId).OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }

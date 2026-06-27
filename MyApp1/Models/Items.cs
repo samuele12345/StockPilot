@@ -26,5 +26,10 @@ namespace MyApp1.Models
 
         // entità di giunzione, concettualmente corrisponde al join
         public List<ItemsClient>? ItemsClient { get; set; }
+
+        [ForeignKey("UserId")]
+        public string? UserId { get; set;}
+
+        public UserM? User { get; set; }
     }
 }
