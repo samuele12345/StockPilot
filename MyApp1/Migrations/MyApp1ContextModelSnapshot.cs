@@ -170,35 +170,6 @@ namespace MyApp1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Books"
-                        });
-                });
-
-            modelBuilder.Entity("MyApp1.Models.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("MyApp1.Models.Items", b =>
@@ -212,14 +183,14 @@ namespace MyApp1.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdSerial")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int?>("SerialId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -228,61 +199,13 @@ namespace MyApp1.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("IdSerial")
+                    b.HasIndex("SerialId")
                         .IsUnique()
-                        .HasFilter("[IdSerial] IS NOT NULL");
+                        .HasFilter("[SerialId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Item");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 4,
-                            IdSerial = 10,
-                            Name = "Microphone",
-                            Price = 40.0
-                        });
-                });
-
-            modelBuilder.Entity("MyApp1.Models.ItemsClient", b =>
-                {
-                    b.Property<int>("ItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ItemId", "ClientId");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("ItemsClient");
-                });
-
-            modelBuilder.Entity("MyApp1.Models.Persone", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("DataNascita")
-                        .HasColumnType("date")
-                        .HasColumnName("dataNascita");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("nome");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Persone");
                 });
 
             modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>
@@ -300,13 +223,6 @@ namespace MyApp1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SerialNumber");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 10,
-                            Name = "MIC150"
-                        });
                 });
 
             modelBuilder.Entity("MyApp1.Models.UserM", b =>
@@ -433,11 +349,12 @@ namespace MyApp1.Migrations
                 {
                     b.HasOne("MyApp1.Models.Category", "Category")
                         .WithMany("Items")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MyApp1.Models.SerialNumber", "SerNumber")
                         .WithOne("Item")
-                        .HasForeignKey("MyApp1.Models.Items", "IdSerial");
+                        .HasForeignKey("MyApp1.Models.Items", "SerialId");
 
                     b.HasOne("MyApp1.Models.UserM", "User")
                         .WithMany("Items")
@@ -451,38 +368,9 @@ namespace MyApp1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MyApp1.Models.ItemsClient", b =>
-                {
-                    b.HasOne("MyApp1.Models.Client", "Client")
-                        .WithMany("ItemsClient")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MyApp1.Models.Items", "Item")
-                        .WithMany("ItemsClient")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("MyApp1.Models.Category", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("MyApp1.Models.Client", b =>
-                {
-                    b.Navigation("ItemsClient");
-                });
-
-            modelBuilder.Entity("MyApp1.Models.Items", b =>
-                {
-                    b.Navigation("ItemsClient");
                 });
 
             modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>

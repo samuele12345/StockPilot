@@ -11,21 +11,15 @@ namespace MyApp1.Models
         
         public double Price { get; set; }
 
-        public int? IdSerial { get; set; }
-
-        [ForeignKey("IdSerial")]
+        [ForeignKey("SerialId")]
+        public int? SerialId { get; set; }
+        
         public SerialNumber? SerNumber { get; set; }
 
-
+        [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
 
-        // non diventa una colonna, serve solo a entity framework per navigare verso l'entità collegata
-
-        [ForeignKey("CategoryId")]
         public Category? Category { get; set; }
-
-        // entità di giunzione, concettualmente corrisponde al join
-        public List<ItemsClient>? ItemsClient { get; set; }
 
         [ForeignKey("UserId")]
         public string? UserId { get; set;}

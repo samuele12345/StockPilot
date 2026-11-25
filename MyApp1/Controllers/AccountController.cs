@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using MyApp1.Migrations;
 using MyApp1.Models;
 using MyApp1.ViewModels;
+using System.Runtime.InteropServices.Marshalling;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MyApp1.Controllers
@@ -12,13 +16,13 @@ namespace MyApp1.Controllers
     public class AccountController : Controller
     {
 
-        private readonly SignInManager<UserM> signInManager;
-        private readonly UserManager<UserM> userManager;
+        private readonly SignInManager<UserM> _signInManager;
+        private readonly UserManager<UserM> _userManager;
 
         public AccountController(SignInManager<UserM> signInManager, UserManager<UserM> userManager)
         {
-            this.signInManager = signInManager;
-            this.userManager = userManager;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Login()
@@ -31,7 +35,9 @@ namespace MyApp1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var normEmail = model.Email.ToLower();
+
+                var result = await _signInManager.PasswordSignInAsync(normEmail, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -50,7 +56,7 @@ namespace MyApp1.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -61,31 +67,46 @@ namespace MyApp1.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model) {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                UserM user = new UserM
-                {
-                    FullName = model.Name,
-                    Email = model.Email,
-                    UserName = model.Email
+                return View(model);
+            }
 
-                };
+            if (string.IsNullOrWhiteSpace(model.Email))
+            {
+                ModelState.AddModelError("Email", "Email is necessary!");
+                return View(model);
+            }
 
-                var result = await userManager.CreateAsync(user, model.Password);
+            var normEmail = model.Email.Trim().ToLower();
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
-                else
-                {
-                    foreach(var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    return View(model);
-                }
-                
+            bool exists = await _userManager.Users.Where(u => u.Email == normEmail).AnyAsync();
+
+            if (exists)
+            {
+                ModelState.AddModelError("Email", "Email già registrata!");
+                return View(model);
+            }
+
+            UserM user = new UserM
+            {
+                FullName = $"{model.Name} {model.Surname}",
+                Email = model.Email,
+                UserName = model.Email
+            };
+
+
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
             }
             return View(model);
 
@@ -102,7 +123,7 @@ namespace MyApp1.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByNameAsync(model.Email);
 
                 if(user == null)
                 {
@@ -131,14 +152,14 @@ namespace MyApp1.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByNameAsync(model.Email);
 
                 if(user != null)
                 {
-                    var result = await userManager.RemovePasswordAsync(user);
+                    var result = await _userManager.RemovePasswordAsync(user);
                     if (result.Succeeded)
                     {
-                        result = await userManager.AddPasswordAsync(user, model.NewPassword);
+                        result = await _userManager.AddPasswordAsync(user, model.NewPassword);
                         return RedirectToAction("Login", "Account");
                     }
                     else

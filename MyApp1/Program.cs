@@ -1,13 +1,12 @@
 using MyApp1.Data;
 using MyApp1.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity; // importare per la connessione al db
+using Microsoft.AspNetCore.Identity;
+using MyApp1.Services.Interfaces;
+using MyApp1.Services;
 
-var builder = WebApplication.CreateBuilder(args); // inizializza l'istanza della web application
+var builder = WebApplication.CreateBuilder(args); 
 
-// Carica un file locale opzionale con configurazioni specifiche del PC.
-// Qui è il punto più corretto: viene letto prima di registrare il DbContext,
-// così ogni sviluppatore può usare la propria connection string senza salvarla su Git.
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 // Add services to the container.
@@ -33,6 +32,8 @@ builder.Services.AddIdentity<UserM, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 builder.Services.AddLogging();
+
+builder.Services.AddScoped<IBarcodeService, BarcodeService>();
 
 var app = builder.Build();
 

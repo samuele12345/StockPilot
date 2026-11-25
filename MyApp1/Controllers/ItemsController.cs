@@ -5,24 +5,28 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyApp1.Data;
 using MyApp1.Models;
+using MyApp1.Services.Interfaces;
 using System.Security.Claims;
+using System.Xml.Serialization;
+
 
 namespace MyApp1.Controllers
 {
     public class ItemsController : Controller
     {
         private readonly MyApp1Context _context;
+        private readonly IBarcodeService _barcodeService;
 
-        public ItemsController(MyApp1Context context)
+        public ItemsController(MyApp1Context context, IBarcodeService barcodeService)
         {
             _context = context;
+            _barcodeService = barcodeService;
         }
 
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            // Carica tutti gli item con caricamento anticipato di SerNumber e Category per evitare N+1 queries
-            // Utilizzare Include corrisponde all'utilizzo del join
+            
             var item = await _context.Item
                 .Include(s => s.SerNumber)
                 .Include(c => c.Category)
@@ -80,7 +84,7 @@ namespace MyApp1.Controllers
                 }
                 else
                 {
-                    string str = item.Name.Substring(0, 3);
+                    string str = item.Name.Substring(0, 3).Replace(" ", "X");
 
                     serNum.Name = str + num;
                 }
@@ -88,7 +92,7 @@ namespace MyApp1.Controllers
                 _context.SerialNumbers.Add(serNum);
                 await _context.SaveChangesAsync();
 
-                item.IdSerial = serNum.Id;
+                item.SerialId = serNum.Id;
                 _context.Item.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -130,7 +134,7 @@ namespace MyApp1.Controllers
             if (ModelState.IsValid)
             {
                 item.UserId = userId;
-                item.IdSerial = existingItem.IdSerial;
+                item.SerialId = existingItem.SerialId;
 
                 _context.Update(item);
                 await _context.SaveChangesAsync();
@@ -174,6 +178,21 @@ namespace MyApp1.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> getImage(int id)
+        {
+            var product = await _context.Item.FirstOrDefaultAsync(p => p.Id == id);
+
+            if(product == null)
+            {
+                return NotFound();
+            }
+
+            var barcode = _barcodeService.GenerateBarcode(product.SerNumber.Name);
+
+            return File(barcode, "image/png");
+        }
 
 
         /*

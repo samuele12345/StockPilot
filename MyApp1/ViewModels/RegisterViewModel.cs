@@ -7,6 +7,9 @@ namespace MyApp1.ViewModels
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; } = null!;
 
+        [Required(ErrorMessage = "Surname is required")]
+        public string Surname { get; set; } = null!;
+
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; } = null!;
