@@ -9,6 +9,9 @@ namespace MyApp1.Models
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
+
+        [ForeignKey("ItemId")]
+        public int ItemId { get; set; }
         public Items? Item { set; get; } 
     }
 }

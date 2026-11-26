@@ -1,0 +1,6 @@
+﻿- Sezione aggiunta prodotti: dividere in aggiunta nome con generazione codice o scanzione/scrittura codice e creazione oggetto (magari con ricerca in un db online tramite api)
+
+- Sezione ricerca prodotti nei db: dividere in db locale e db con chiamata api, in entrambi si può cercare con codice o nome (db online aggiunge immagine e info in automatico al form. 
+Possibilità di aggiungere prodotti online al db locale
+
+-Cambiare impostazione pagina Items, aggingere file js per elenco responsive, togliere model (blazor?)

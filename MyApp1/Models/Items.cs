@@ -10,10 +10,7 @@ namespace MyApp1.Models
         public string? Name { get; set; }
         
         public double Price { get; set; }
-
-        [ForeignKey("SerialId")]
-        public int? SerialId { get; set; }
-        
+      
         public SerialNumber? SerNumber { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -25,5 +22,6 @@ namespace MyApp1.Models
         public string? UserId { get; set;}
 
         public UserM? User { get; set; }
+        public string? Img { get; set; }
     }
 }

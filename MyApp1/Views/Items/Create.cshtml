@@ -6,22 +6,31 @@
 
 <h3>Create an item</h3>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
+<form asp-controller="Items" asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label"></label>
         <input type="text" class="form-control" asp-for="Name" autocomplete="name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Price"></label>
+    <div class="form-group mb-3">
+        <label asp-for="Price" class="form-label"></label>
         <input type="number" class="form-control" asp-for="Price" autocomplete="off" />
+        <span asp-validation-for="Price" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="CategoryId">Category</label>
+    <div class="form-group mb-3">
+        <label asp-for="Category" class="form-label">Category</label>
         <!-- asp-for serve a collegare un elemento HTML a una proprietà del model, in questo caso a Items.cs-->
         <!-- ViewBag.Category fornisce le opzioni da mostrare-->
-        <select asp-for="CategoryId" asp-items="ViewBag.Category" class="form-control">
+        <select asp-for="Category" asp-items="ViewBag.Category" class="form-control">
             <option value="">Select a category</option>
         </select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Img" class="form-label">Immagine</label>
+        <input asp-for="Img" type="file" accept="image/*" class="form-control"/>
+        <span asp-validation-for="Img" class="text-danger"></span>
     </div>
     <!--legge gli errori presenti nel ModelState e li mostra nella view. vedi metodo Create in ItemsController-->
     <div asp-validation-summary="All" class="text-danger"></div>

@@ -46,6 +46,13 @@ namespace MyApp1.Controllers
         // Bind limita il model binding solo alle proprietà specificate, prevenendo over-posting
         public async Task<IActionResult> Create([Bind("Id", "Name", "Price", "CategoryId")] Items item)
         {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Invalid data inserted");
+                ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item.CategoryId);
+                return View(item);
+            }
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             item.Name = item.Name.Trim();
@@ -59,47 +66,34 @@ namespace MyApp1.Controllers
                 return View(item);
             }
 
-            if (ModelState.IsValid)
+            bool nameExists = await _context.Item.AnyAsync(i => i.Name == item.Name);
+
+            if (nameExists)
             {
-                item.UserId = userId;
-
-                var serNum = new SerialNumber();
-                var random = new Random();
-                int num = random.Next(10, 100);
-
-                if(item.Name.Length < 3)
-                {
-                    if (item.Name.Length == 1)
-                    {
-                        string str = item.Name.Substring(0, 1) + "XX";
-
-                        serNum.Name = str + num;
-                    }
-                    else if(item.Name.Length == 2)
-                    {
-                        string str = item.Name.Substring(0, 2) + "X";
-
-                        serNum.Name = str + num;
-                    }
-                }
-                else
-                {
-                    string str = item.Name.Substring(0, 3).Replace(" ", "X");
-
-                    serNum.Name = str + num;
-                }
-
-                _context.SerialNumbers.Add(serNum);
-                await _context.SaveChangesAsync();
-
-                item.SerialId = serNum.Id;
-                _context.Item.Add(item);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                ModelState.AddModelError("Name", "Name is already used!");
+                return View(item);
             }
 
-            ViewBag.Category = new SelectList(_context.Categories, "Id", "Name", item.CategoryId);
-            return View(item);
+            item.UserId = userId;
+            string serNumName;
+
+            do
+            {
+                serNumName = $"SKP-{DateTime.Now.Year}-{Guid.NewGuid().ToString("N")[..12].ToUpperInvariant()}";
+            } while(await _context.SerialNumbers.AnyAsync(s => s.Name == serNumName));
+
+            SerialNumber sNum = new SerialNumber
+            {
+                Name = serNumName,
+                Item = item
+            };
+
+            item.SerNumber = sNum;
+
+            _context.Item.Add(item);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -134,7 +128,7 @@ namespace MyApp1.Controllers
             if (ModelState.IsValid)
             {
                 item.UserId = userId;
-                item.SerialId = existingItem.SerialId;
+                //item.SerialId = existingItem.SerialId;
 
                 _context.Update(item);
                 await _context.SaveChangesAsync();
@@ -180,7 +174,7 @@ namespace MyApp1.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> getImage(int id)
+        public async Task<IActionResult> GetImage(int id)
         {
             var product = await _context.Item.FirstOrDefaultAsync(p => p.Id == id);
 

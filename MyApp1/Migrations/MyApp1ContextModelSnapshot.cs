@@ -183,14 +183,14 @@ namespace MyApp1.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Img")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<int?>("SerialId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -198,10 +198,6 @@ namespace MyApp1.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("SerialId")
-                        .IsUnique()
-                        .HasFilter("[SerialId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -216,11 +212,20 @@ namespace MyApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ItemId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("SerialNumber");
                 });
@@ -352,10 +357,6 @@ namespace MyApp1.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("MyApp1.Models.SerialNumber", "SerNumber")
-                        .WithOne("Item")
-                        .HasForeignKey("MyApp1.Models.Items", "SerialId");
-
                     b.HasOne("MyApp1.Models.UserM", "User")
                         .WithMany("Items")
                         .HasForeignKey("UserId")
@@ -363,9 +364,18 @@ namespace MyApp1.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("SerNumber");
-
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>
+                {
+                    b.HasOne("MyApp1.Models.Items", "Item")
+                        .WithOne("SerNumber")
+                        .HasForeignKey("MyApp1.Models.SerialNumber", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("MyApp1.Models.Category", b =>
@@ -373,9 +383,9 @@ namespace MyApp1.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("MyApp1.Models.SerialNumber", b =>
+            modelBuilder.Entity("MyApp1.Models.Items", b =>
                 {
-                    b.Navigation("Item");
+                    b.Navigation("SerNumber");
                 });
 
             modelBuilder.Entity("MyApp1.Models.UserM", b =>

@@ -24,7 +24,11 @@ namespace MyApp1.Data
 
             modelBuilder.Entity<Items>().HasOne(c => c.Category).WithMany(i => i.Items).HasForeignKey(c => c.CategoryId).OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Items>().HasOne(s => s.SerNumber).WithOne(i => i.Item).HasForeignKey<Items>(s => s.SerialId);
+            modelBuilder.Entity<Items>().HasOne(s => s.SerNumber).WithOne(i => i.Item).HasForeignKey<SerialNumber>(s => s.ItemId);
+
+            modelBuilder.Entity<SerialNumber>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
         }
 
         
