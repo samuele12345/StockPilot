@@ -138,6 +138,28 @@ namespace MyApp1.Controllers
             return View(item);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteItem(int id)
+        {
+            var UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var item = await _context.Item.FirstOrDefaultAsync(i => i.UserId.Equals(UserId) && i.Id == id);
+
+            if(item == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(item);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+
+        /*
         public async Task<IActionResult> Delete(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -166,6 +188,8 @@ namespace MyApp1.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        */
 
         public IActionResult AboutUs()
         {

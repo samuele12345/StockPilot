@@ -1,4 +1,5 @@
 ﻿@model List<MyApp1.Models.Items>
+@Html.AntiForgeryToken()
 
 @{
     // di solito qui si specifica il titolo della pagina, "Title" è una key
@@ -20,14 +21,11 @@
     }
 
     .table{
-        padding: 20px 20px;
+        padding: 0 20px;
         border-radius: 10px;
         box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
     }
     
-    thead{
-        padding-top: 20px;
-    }
 
     .main-it-div{
         display: flex;
@@ -37,79 +35,95 @@
         background: rgba(255, 255, 255, 0.8);
         border-radius: 10px;
         box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
-        margin-top: 20px;
         width: 100%;
-        margin-bottom: 20px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .main-it-div > .table {
+        margin-bottom: 0;
+    }
+
+    tr{
+        margin: 15px 0;
     }
 
     #n-it-found{
         color: rgba(0, 0, 0, 0.7);
-        margin-bottom: 20px;
     }
 </style>
 
 <img id="img-sfondo" src="~/src/pexels-tiger-lily-4483773.jpg" alt="Background" />
 
-@if (Model.Count == 0)
-{
-    <div class="main-it-div">
+<div class="container-fluid mt-4">
+    <div class="table-responsive main-it-div">
         <table class="table">
-            <tr>
+            <thead>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Serial Number</th>
                 <th>Category</th>
                 <th>Modify</th>
-            </tr>
+            </thead>
+                
+                <tbody class="table-hover tbody">
+                    @if (Model.Count != 0){
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <!--td sta per table data-->
+                                    <td>@item.Name</td>
+                                    <td>@item.Price.ToString("N2") $</td>
+                                    <!--funziona grazie a Include(s => s.SerNumber) in ItemsController, buona pratica-->
+                                    <td>@item.SerNumber?.Name</td>  <!--aggiunta del punto di domanda perchè può essere null-->
+                                    <th>@item.Category?.Name</th>
+                                    <td>
+                                        <!--asp-action è un helper (permette di sviluppare task), questo in particolare permetterà di dirigere il link all'action edit-->
+                                        <!--ridirige alla pagina edit con l'id specificato in asp-route-id -->
+                                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                        <!--stessa funzione di prima ma verso l'action delete-->
+                                        <button class="btn btn-secondary" onclick="delItem(@item.Id, this)">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+                    }
+                </tbody>
+             
         </table>
-        <div class="w-100 text-center">
-            <h2 id="n-it-found"> No items found!</h2>
-        </div>
-
+        
+        <h2 id="n-it-found" class="w-100 text-center noItems" style="display: none"> No items found!</h2>
     </div>
-    
+
+    <div class="modal fade" id="delete-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure to delete this item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-danger" id="buttonDelete" data-bs-dismiss="modal">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<a asp-action="Create" class="btn btn-primary mt-4">New Item</a>
+
+
+
+@section Scripts{
+    <script src="~/js/ElencoItems.js"></script>
 }
-else
-{
-    <table class="table mt-4">
-
-        <thead>
-            <!--tr: riga, th: table header-->
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Serial Number</th>
-                <th>Category</th>
-                <th>Modify</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <!--td sta per table data-->
-                    <td>@item.Name</td>
-                    <td>@item.Price.ToString("N2") $</td>
-                    <!--funziona grazie a Include(s => s.SerNumber) in ItemsController, buona pratica-->
-                    <!-- con ? prova ad accedere a SerNumber, solo se non è null, se invece è null, non lancia eccezione e restituisce null-->
-                    <td>@item.SerNumber?.Name</td>  <!--aggiunta del punto di domanda perchè può essere null-->
-                    <th>@item.Category?.Name</th>
-                    <td>
-                        <!--asp-action è un helper (permette di sviluppare task), questo in particolare permetterà di dirigere il link all'action edit-->
-                        <!--ridirige alla pagina edit con l'id specificato in asp-route-id -->
-                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                        <!--stessa funzione di prima ma verso l'action delete-->
-                        <a class="btn btn-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-
-
-
-
-<a asp-action="Create" class="btn btn-primary">New Item</a>
